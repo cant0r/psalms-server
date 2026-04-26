@@ -39,7 +39,7 @@ func main() {
 
 		playingPsalmMetadata, err := psalmist.GetPlayingPsalmMetadata()
 
-		artManager := arts.NewArtManager(logger, arts.Kmeans)
+		artManager := arts.NewKmeansArtManager(logger)
 		if artPalette, ok := artPaletteCache[playingPsalmMetadata.ArtUrl]; ok {
 			logger.Info("Retrieved from cache!")
 			playingPsalmMetadata.ArtPalette = artPalette
