@@ -11,13 +11,13 @@ import (
 	"github.com/godbus/dbus/v5"
 )
 
-type LinuxPsalmist struct {
+type Psalmist struct {
 	CommonPsalmist
 	mprisPlayerPrettyName string
 	mprisPlayerId         string
 }
 
-func (psalmist *LinuxPsalmist) attachMprisPlayer(conn *dbus.Conn) error {
+func (psalmist *Psalmist) attachMprisPlayer(conn *dbus.Conn) error {
 	var names []string
 	err := conn.BusObject().Call("org.freedesktop.DBus.ListNames", 0).Store(&names)
 
@@ -46,7 +46,7 @@ func (psalmist *LinuxPsalmist) attachMprisPlayer(conn *dbus.Conn) error {
 	return nil
 }
 
-func (psalmist LinuxPsalmist) GetPlayingPsalmMetadata() (PsalmMetadata, error) {
+func (psalmist Psalmist) GetPlayingPsalmMetadata() (PsalmMetadata, error) {
 	conn, err := dbus.ConnectSessionBus()
 
 	if err != nil {
@@ -80,8 +80,8 @@ func (psalmist LinuxPsalmist) GetPlayingPsalmMetadata() (PsalmMetadata, error) {
 	}, nil
 }
 
-func newPsalmist(logger *log.Logger, playerName string) (Psalmist, error) {
-	return LinuxPsalmist{
+func New(logger *log.Logger, playerName string) (Psalmist, error) {
+	return Psalmist{
 		CommonPsalmist:        CommonPsalmist{logger: *logger},
 		mprisPlayerPrettyName: strings.ToLower(playerName),
 	}, nil

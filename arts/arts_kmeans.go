@@ -24,6 +24,14 @@ type KmeansArtManager struct {
 	CommonArtManager
 }
 
+func NewKmeansArtManager(logger *log.Logger) *KmeansArtManager {
+	return &KmeansArtManager{
+		CommonArtManager: CommonArtManager{
+			logger: *logger,
+		},
+	}
+}
+
 func (manager KmeansArtManager) loadImageOverUrl(artworkUrl url.URL) (image.Image, error) {
 	manager.logger.Infof("Load artwork from %s\n", artworkUrl.String())
 
@@ -68,10 +76,4 @@ func (manager KmeansArtManager) GetArtPaletteForImage(artworkUrl url.URL) (ArtPa
 	}
 
 	return artPalette, nil
-}
-
-func NewKmeansArtManager(logger *log.Logger) ArtManager {
-	return KmeansArtManager{
-		CommonArtManager: CommonArtManager{logger: *logger},
-	}
 }

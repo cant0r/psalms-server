@@ -8,23 +8,8 @@ import (
 	"github.com/charmbracelet/log"
 )
 
-type Psalmist interface {
-	GetPlayingPsalmMetadata() (PsalmMetadata, error)
-}
-
 type CommonPsalmist struct {
 	logger log.Logger
-}
-
-func New(logger *log.Logger, playerName string) (Psalmist, error) {
-	psalmist, err := newPsalmist(logger, playerName)
-
-	if err != nil {
-		logger.Error("Failed to get any active player!", "err", err)
-		return nil, err
-	}
-
-	return psalmist, nil
 }
 
 type PsalmMetadata struct {
