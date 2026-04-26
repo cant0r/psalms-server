@@ -3,6 +3,7 @@ module github.com/cant0r/psalms-server
 go 1.26.2
 
 require (
+	github.com/EdlinOrg/prominentcolor v1.0.0
 	github.com/charmbracelet/log v1.0.0
 	github.com/godbus/dbus/v5 v5.2.2
 )
@@ -19,6 +20,8 @@ require (
 	github.com/mattn/go-isatty v0.0.20 // indirect
 	github.com/mattn/go-runewidth v0.0.16 // indirect
 	github.com/muesli/termenv v0.16.0 // indirect
+	github.com/nfnt/resize v0.0.0-20180221191011-83c6a9932646 // indirect
+	github.com/oliamb/cutter v0.2.2 // indirect
 	github.com/rivo/uniseg v0.4.7 // indirect
 	github.com/xo/terminfo v0.0.0-20220910002029-abceb7e1c41e // indirect
 	golang.org/x/exp v0.0.0-20231006140011-7918f672742d // indirect

@@ -12,12 +12,12 @@ import (
 )
 
 type LinuxPsalmist struct {
-	logger                *log.Logger
+	CommonPsalmist
 	mprisPlayerPrettyName string
 	mprisPlayerId         string
 }
 
-func (psalmist *LinuxPsalmist) registerMprisPlayer(conn *dbus.Conn) error {
+func (psalmist *LinuxPsalmist) attachMprisPlayer(conn *dbus.Conn) error {
 	var names []string
 	err := conn.BusObject().Call("org.freedesktop.DBus.ListNames", 0).Store(&names)
 
@@ -54,7 +54,7 @@ func (psalmist LinuxPsalmist) GetPlayingPsalmMetadata() (PsalmMetadata, error) {
 	}
 	defer conn.Close()
 
-	err = psalmist.registerMprisPlayer(conn)
+	err = psalmist.attachMprisPlayer(conn)
 
 	var metadata map[string]dbus.Variant
 	call := conn.Object(psalmist.mprisPlayerId, "/org/mpris/MediaPlayer2").Call("org.freedesktop.DBus.Properties.Get", 0, "org.mpris.MediaPlayer2.Player", "Metadata")
@@ -74,15 +74,15 @@ func (psalmist LinuxPsalmist) GetPlayingPsalmMetadata() (PsalmMetadata, error) {
 	}
 
 	return PsalmMetadata{
-		title:  metadata["xesam:title"].String(),
-		album:  metadata["xesam:album"].String(),
-		artUrl: *artUrl,
+		Title:  metadata["xesam:title"].String(),
+		Album:  metadata["xesam:album"].String(),
+		ArtUrl: *artUrl,
 	}, nil
 }
 
 func newPsalmist(logger *log.Logger, playerName string) (Psalmist, error) {
 	return LinuxPsalmist{
-		logger:                logger,
+		CommonPsalmist:        CommonPsalmist{logger: *logger},
 		mprisPlayerPrettyName: strings.ToLower(playerName),
 	}, nil
 }
